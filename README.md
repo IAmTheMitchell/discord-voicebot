@@ -22,6 +22,7 @@ VoiceBot is a lightweight Discord bot that posts a message in the first text cha
 
 1. **Open the Developer Portal:** <https://discord.com/developers/applications>  
 2. **New Application** → give it a name (e.g. *VoiceBot*).  
+3. **Installation → Install Link → *None***
 3. **Bot → Add Bot → Yes, do it!**  
 4. **Copy the Token** — you’ll need this for the `.env` file.  
 5. **Privileged Gateway Intents:** toggle **Server Members Intent** **ON**.  
