@@ -1,0 +1,1 @@
+VoiceBot is a project written in Python. It's purpose is to send Discord notifications whenever a user enters a Discord voice channel.

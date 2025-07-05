@@ -1,0 +1,7 @@
+[project]
+name = "voicebot"
+version = "0.1.0"
+description = "Discord bot that sends notifications whenever a user enters a voice channel"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
