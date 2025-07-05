@@ -49,9 +49,8 @@ curl -Ls https://astral.sh/uv/install.sh | sh
 ```bash
 git clone https://github.com/IAmTheMitchell/voicebot.git
 cd voicebot
-uv venv .venv
-source .venv/bin/activate
-uv pip install -e .      # installs discord.py & python‑dotenv
+uv python install
+uv sync
 
 # Create .env with your secret token
 echo "DISCORD_TOKEN=YOUR-TOKEN-HERE" > .env
