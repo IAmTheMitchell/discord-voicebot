@@ -3,8 +3,20 @@ name = "voicebot"
 version = "0.1.0"
 description = "Discord bot that sends notifications whenever a user enters a voice channel"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "Mitchell"}]
 dependencies = [
     "discord-py[voice]>=2.5.2",
-    "dotenv>=0.9.9",
+    "python-dotenv>=1.1.1",
 ]
+
+[project.scripts]
+voicebot = "voicebot.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"

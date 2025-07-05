@@ -44,19 +44,17 @@ curl -Ls https://astral.sh/uv/install.sh | sh
 
 > **Why uv?** It’s a drop‑in replacement for `pip`/`venv` that installs dependencies in lightning‑fast Rust.
 
-### 3 ‒ Clone, Build, and Run
+### 3 ‒ Install and Run
 
 ```bash
-git clone https://github.com/IAmTheMitchell/voicebot.git
-cd voicebot
 uv venv .venv
 source .venv/bin/activate
-uv pip install -e .      # installs discord.py & python‑dotenv
+uv pip install voicebot  # installs discord.py & python‑dotenv
 
 # Create .env with your secret token
 echo "DISCORD_TOKEN=YOUR-TOKEN-HERE" > .env
 
-python bot.py            # launch!
+voicebot                 # launch!
 ```
 
 ### 4 ‒ Running 24 × 7 with systemd (Ubuntu/Debian)
@@ -69,10 +67,9 @@ sudo useradd -r -m -s /usr/sbin/nologin voicebot
 
 # 4.2  Move code & create a persistent venv (or keep it in your home directory)
 sudo mkdir -p /opt/voicebot
-sudo cp -r * /opt/voicebot
 cd /opt/voicebot
 sudo uv venv .venv
-sudo ./.venv/bin/uv pip install -e .
+sudo ./.venv/bin/uv pip install voicebot
 
 # 4.3  Store token in /opt/voicebot/.env (root‑only readable)
 sudo nano /opt/voicebot/.env
@@ -92,7 +89,7 @@ Type=simple
 User=voicebot
 WorkingDirectory=/opt/voicebot
 EnvironmentFile=/opt/voicebot/.env
-ExecStart=/opt/voicebot/.venv/bin/python bot.py
+ExecStart=/opt/voicebot/.venv/bin/voicebot
 Restart=on-failure
 RestartSec=10
 
@@ -113,7 +110,7 @@ sudo -iu voicebot
 cd /opt/voicebot
 git pull
 source .venv/bin/activate
-uv pip install -e . --upgrade
+uv pip install voicebot --upgrade
 exit
 sudo systemctl restart voicebot
 ```
