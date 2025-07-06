@@ -46,10 +46,10 @@ curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="/usr/local/bin"
 
 ### 3 ‒ Run with UVX
 
-> Using the uvx command will download dependencies on each run, so updates are automatic.
+> Using the uvx command with the "--refresh" flag will download dependencies on each run, so updates are automatic.
 
 ```bash
-uvx discord-voicebot --token=<your_discord_token_here>
+uvx discord-voicebot --refresh --token=<your_discord_token_here>
 ```
 
 ### 4 ‒ Running 24 × 7 with systemd (Ubuntu/Debian)
@@ -76,7 +76,7 @@ Type=simple
 User=discord-voicebot
 WorkingDirectory=/opt/discord-voicebot
 EnvironmentFile=/etc/discord-voicebot/bot.env
-ExecStart=/usr/local/bin/uvx discord-voicebot
+ExecStart=/usr/local/bin/uvx --refresh discord-voicebot
 Restart=on-failure
 RestartSec=10
 StandardOutput=journal
