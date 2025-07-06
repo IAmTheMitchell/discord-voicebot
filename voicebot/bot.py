@@ -6,9 +6,9 @@
 #     "dotenv>=0.9.9",
 # ]
 # ///
+import logging
 import os
 import random
-import logging
 
 import discord
 from discord.ext import commands
@@ -67,7 +67,10 @@ async def on_voice_state_update(member, before, after):
     if is_member_joined(before, after):
         to_channel = get_channel_for_message(discord, bot, member.guild.id)
         if to_channel is None:
-            logger.warning("No available channel to send join message for guild %s", member.guild.id)
+            logger.warning(
+                "No available channel to send join message for guild %s",
+                member.guild.id,
+            )
             return
         message_text = random.choice(REGULAR_MESSAGES)
         logger.info("%s joined %s", member.display_name, after.channel.name)

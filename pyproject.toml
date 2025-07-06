@@ -8,3 +8,6 @@ dependencies = [
     "discord-py[voice]>=2.5.2",
     "dotenv>=0.9.9",
 ]
+
+[project.scripts]
+voicebot = "voicebot.bot:main"
