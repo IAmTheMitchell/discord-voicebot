@@ -1,3 +1,11 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "discord-py[voice]>=2.5.2",
+#     "dotenv>=0.9.9",
+# ]
+# ///
 import os
 import random
 

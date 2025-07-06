@@ -35,9 +35,6 @@ VoiceBot is a lightweight Discord bot that posts a message in the first text cha
 ### 2 ‒ Install Python & uv
 
 ```bash
-# Ubuntu example (Python 3.12 shown; adjust if you have 3.11/3.13):
-sudo apt update && sudo apt install -y python3.12 python3.12-venv curl git
-
 # Install uv (one‑liner)
 curl -Ls https://astral.sh/uv/install.sh | sh
 ```
@@ -49,13 +46,11 @@ curl -Ls https://astral.sh/uv/install.sh | sh
 ```bash
 git clone https://github.com/IAmTheMitchell/voicebot.git
 cd voicebot
-uv python install
-uv sync
 
 # Create .env with your secret token
 echo "DISCORD_TOKEN=YOUR-TOKEN-HERE" > .env
 
-python bot.py            # launch!
+uv run voicebot.py            # launch!
 ```
 
 ### 4 ‒ Running 24 × 7 with systemd (Ubuntu/Debian)
@@ -66,16 +61,12 @@ python bot.py            # launch!
 # 4.1  Create service user (optional but recommended)
 sudo useradd -r -m -s /usr/sbin/nologin voicebot
 
-# 4.2  Move code & create a persistent venv (or keep it in your home directory)
+# 4.2  Move code to opt folder
 sudo mkdir -p /opt/voicebot
 sudo cp -r * /opt/voicebot
 cd /opt/voicebot
-sudo uv venv .venv
-sudo ./.venv/bin/uv pip install -e .
 
 # 4.3  Store token in /opt/voicebot/.env (root‑only readable)
-sudo nano /opt/voicebot/.env
-#   DISCORD_TOKEN=PASTE-TOKEN-HERE
 sudo chown voicebot:voicebot /opt/voicebot/.env
 sudo chmod 600 /opt/voicebot/.env
 
@@ -91,7 +82,7 @@ Type=simple
 User=voicebot
 WorkingDirectory=/opt/voicebot
 EnvironmentFile=/opt/voicebot/.env
-ExecStart=/opt/voicebot/.venv/bin/python bot.py
+ExecStart=uv run voicebot.py
 Restart=on-failure
 RestartSec=10
 
@@ -111,8 +102,6 @@ sudo journalctl -u voicebot -f   # live logs
 sudo -iu voicebot
 cd /opt/voicebot
 git pull
-source .venv/bin/activate
-uv pip install -e . --upgrade
 exit
 sudo systemctl restart voicebot
 ```
@@ -123,8 +112,7 @@ sudo systemctl restart voicebot
 
 | Task | Command |
 |------|---------|
-| Add a new dependency | `uv add PACKAGE_NAME` |
-| Run unit tests (coming soon) | `uv pip install pytest && pytest` |
+| Add a new dependency | `uv add --script voicebot.py PACKAGE_NAME` |
 | Lint (optional) | `uv pip install ruff && ruff check .` |
 
 Commit messages follow [Conventional Commits](https://www.conventionalcommits.org).
@@ -145,4 +133,4 @@ Commit messages follow [Conventional Commits](https://www.conventionalcommits.or
 
 1. Fork → Branch → PR.  
 2. Follow the commit style.  
-3. All code must pass `pytest` and `ruff`.  
+3. All code must pass `ruff`.  
