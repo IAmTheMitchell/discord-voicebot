@@ -58,7 +58,11 @@ uvx discord-voicebot --token=<your_discord_token_here>
 
 ```bash
 # 4.1  Create service user (optional but recommended)
-sudo useradd -r -m -s /usr/sbin/nologin voicebot
+sudo useradd -r -m -s /usr/sbin/nologin discord-voicebot
+
+# 4.2  Create working directory
+sudo mkdir -p /opt/discord-voicebot
+sudo chown discord-voicebot:discord-voicebot /opt/discord-voicebot
 
 # 4.3  Create the systemd unit file
 sudo tee /etc/systemd/system/discord-voicebot.service > /dev/null <<EOF
@@ -69,8 +73,8 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-User=voicebot
-WorkingDirectory=/opt/voicebot
+User=discord-voicebot
+WorkingDirectory=/opt/discord-voicebot
 EnvironmentFile=/etc/discord-voicebot/bot.env
 ExecStart=/usr/local/bin/uvx discord-voicebot
 Restart=on-failure
