@@ -17,3 +17,8 @@ Homepage = "https://github.com/IAmTheMitchell/voicebot"
 
 [tool.setuptools.package-data]
 voicebot = ["data/*.service"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
