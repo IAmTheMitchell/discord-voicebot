@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.2.2 (2025-07-06)
+
+### Bug Fixes
+
+- Point hatch to src
+  ([`a5bef72`](https://github.com/IAmTheMitchell/discord-voicebot/commit/a5bef729d7e2c502b2fcb10660ed9dcd7e89e6f7))
+
+
 ## v0.2.1 (2025-07-06)
 
 ### Bug Fixes
