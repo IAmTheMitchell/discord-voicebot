@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.2.4 (2025-07-06)
+
+### Bug Fixes
+
+- Simplify hatch settings
+  ([`1d2bbf8`](https://github.com/IAmTheMitchell/discord-voicebot/commit/1d2bbf83e2576e40caf16af013eaea257a1e601a))
+
+
 ## v0.2.3 (2025-07-06)
 
 ### Bug Fixes
