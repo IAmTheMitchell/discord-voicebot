@@ -1,5 +1,5 @@
 # Background
-VoiceBot is a project written in Python. It's purpose is to send Discord notifications whenever a user enters a Discord voice channel.
+VoiceBot is a project written in Python. Its purpose is to send Discord notifications whenever a user enters a Discord voice channel.
 
 # Python
 - Use uv to manage Python and all python packages

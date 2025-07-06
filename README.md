@@ -12,7 +12,7 @@ VoiceBot is a lightweight Discord bot that posts a message in the first text cha
 | Auto‑delete | Messages disappear after 5 minutes to keep channels tidy. |
 | Private by default | Designed to run only on **your** server (toggleable in Discord Dev Portal). |
 | Zero database required | Fully functional without a database (hooks included if you want to log joins). |
-| Runs anywhere | Tested on Ubuntu 22.04/24.04 in an LXC container on Proxmox, but any system with Python ≥ 3.11 works. |
+| Runs anywhere | Tested on Ubuntu 24.04 in an LXC container on Proxmox, but any system with Python ≥ 3.13 works. |
 
 ---
 
@@ -23,11 +23,11 @@ VoiceBot is a lightweight Discord bot that posts a message in the first text cha
 1. **Open the Developer Portal:** <https://discord.com/developers/applications>  
 2. **New Application** → give it a name (e.g. *VoiceBot*).  
 3. **Installation → Install Link → *None***
-3. **Bot → Add Bot → Yes, do it!**  
-4. **Copy the Token** — you’ll need this for the `.env` file.  
-5. **Privileged Gateway Intents:** toggle **Server Members Intent** **ON**.  
-6. **Public Bot:** *OFF* (keeps your bot private).  
-7. **OAuth2 → URL Generator**  
+4. **Bot → Add Bot → Yes, do it!**  
+5. **Copy the Token** — you’ll need this for the `.env` file.  
+6. **Privileged Gateway Intents:** toggle **Server Members Intent** **ON**.  
+7. **Public Bot:** *OFF* (keeps your bot private).  
+8. **OAuth2 → URL Generator**  
    - Scopes: **bot**  
    - Bot Permissions: **View Channels**, **Send Messages**, **Embed Links**  
    Copy the generated URL, visit it, and invite the bot to your server.
@@ -36,7 +36,8 @@ VoiceBot is a lightweight Discord bot that posts a message in the first text cha
 
 ```bash
 # Install uv (one‑liner)
-curl -Ls https://astral.sh/uv/install.sh | sh
+# WARNING: Installs to /usr/local/bin so that all users can access uv
+curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="/usr/local/bin" sh
 ```
 
 > **Why uv?** It’s a drop‑in replacement for `pip`/`venv` that installs dependencies in lightning‑fast Rust.
@@ -44,6 +45,7 @@ curl -Ls https://astral.sh/uv/install.sh | sh
 ### 3 ‒ Clone, Build, and Run
 
 ```bash
+cd /opt
 git clone https://github.com/IAmTheMitchell/voicebot.git
 cd voicebot
 
@@ -61,28 +63,23 @@ uv run voicebot.py            # launch!
 # 4.1  Create service user (optional but recommended)
 sudo useradd -r -m -s /usr/sbin/nologin voicebot
 
-# 4.2  Move code to opt folder
-sudo mkdir -p /opt/voicebot
-sudo cp -r * /opt/voicebot
-cd /opt/voicebot
-
-# 4.3  Store token in /opt/voicebot/.env (root‑only readable)
+# 4.2  Give service user permissions to read token
 sudo chown voicebot:voicebot /opt/voicebot/.env
 sudo chmod 600 /opt/voicebot/.env
 
-# 4.4  Create the systemd unit
+# 4.3  Create the systemd unit
 sudo tee /etc/systemd/system/voicebot.service > /dev/null <<EOF
 [Unit]
 Description=VoiceBot — Discord voice‑join announcer
-after=network-online.target
-wants=network-online.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple
 User=voicebot
 WorkingDirectory=/opt/voicebot
 EnvironmentFile=/opt/voicebot/.env
-ExecStart=uv run voicebot.py
+ExecStart=/usr/local/bin/uv run voicebot.py
 Restart=on-failure
 RestartSec=10
 
@@ -90,7 +87,7 @@ RestartSec=10
 WantedBy=multi-user.target
 EOF
 
-# 4.5  Fire it up
+# 4.4  Fire it up
 sudo systemctl daemon-reload
 sudo systemctl enable --now voicebot
 sudo journalctl -u voicebot -f   # live logs
@@ -99,10 +96,8 @@ sudo journalctl -u voicebot -f   # live logs
 ### 5 ‒ Updating
 
 ```bash
-sudo -iu voicebot
 cd /opt/voicebot
 git pull
-exit
 sudo systemctl restart voicebot
 ```
 
