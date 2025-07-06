@@ -12,7 +12,7 @@ VoiceBot is a lightweight Discord bot that posts a message in the first text cha
 | Auto‑delete | Messages disappear after 5 minutes to keep channels tidy. |
 | Private by default | Designed to run only on **your** server (toggleable in Discord Dev Portal). |
 | Zero database required | Fully functional without a database (hooks included if you want to log joins). |
-| Runs anywhere | Tested on Ubuntu 24.04 in an LXC container on Proxmox, but any system with Python ≥ 3.13 works. |
+| Runs anywhere | Tested on Ubuntu 24.04 in an LXC container on Proxmox, but any system with Python ≥ 3.11 works. |
 
 ---
 
