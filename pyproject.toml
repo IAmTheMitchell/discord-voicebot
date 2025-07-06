@@ -1,10 +1,48 @@
 [project]
-name = "voicebot"
+name = "discord-voicebot"
 version = "0.1.0"
 description = "Discord bot that sends notifications whenever a user enters a voice channel"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "discord-py[voice]>=2.5.2",
-    "dotenv>=0.9.9",
+    "python-dotenv>=1.1.1",
 ]
+authors = [
+    {name = "Mitchell Carlson", email = "mitchell.carlson.pro@gmail.com"},
+    {name = "Dan Petrolito"}
+]
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+discord-voicebot = "src.discord_voicebot.bot:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.urls]
+Homepage = "https://github.com/IAmTheMitchell/voicebot"
+"Bug Tracker" = "https://github.com/IAmTheMitchell/voicebot/issues"
+"Changelog" = "https://github.com/IAmTheMitchell/voicebot/blob/main/CHANGELOG.md"
+
+[tool.setuptools.package-data]
+voicebot = ["data/*.service"]
+
+[tool.hatch.build]
+include = [
+    "src/discord_voicebot/data/discord_voicebot@.service",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
+
+[tool.semantic_release]
+branch = "main"
+version_toml = ["pyproject.toml:project.version"]
