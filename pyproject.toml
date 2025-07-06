@@ -36,17 +36,6 @@ Homepage = "https://github.com/IAmTheMitchell/voicebot"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.hatch.build]
-include = [
-    "data/discord_voicebot@.service",
-]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/discord_voicebot"]
-
-[tool.hatch.build.targets.sdist]
-packages = ["src/discord_voicebot"]
-
 [tool.semantic_release]
 branch = "main"
 version_toml = ["pyproject.toml:project.version"]
