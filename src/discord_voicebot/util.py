@@ -23,15 +23,13 @@ def find_token() -> str:
     if token := os.getenv("DISCORD_TOKEN"):
         return token
 
-    # priority 3: .env in XDG config or cwd
-    paths = [
+    # priority 3: .env in XDG config only
+    env_file = (
         pathlib.Path(os.getenv("XDG_CONFIG_HOME", "~/.config")).expanduser()
         / "voicebot"
-        / ".env",
-        pathlib.Path(".env"),
-    ]
-    for p in paths:
-        if p.exists():
-            return dotenv_values(p).get("DISCORD_TOKEN", "") or ""
+        / ".env"
+    )
+    if env_file.exists():
+        return dotenv_values(env_file).get("DISCORD_TOKEN", "") or ""
 
     raise RuntimeError("Discord token not found. See README.")
