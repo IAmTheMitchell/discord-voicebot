@@ -1,6 +1,40 @@
 # CHANGELOG
 
 
+## v0.2.0 (2025-07-06)
+
+### Bug Fixes
+
+- Fix path for shim
+  ([`07d412d`](https://github.com/IAmTheMitchell/discord-voicebot/commit/07d412d19789106c5be8b4d74ca7ee2a8ccd18a7))
+
+- Fix path to service file
+  ([`00ec1f8`](https://github.com/IAmTheMitchell/discord-voicebot/commit/00ec1f837bb48f86c0f57ade84315ef564429603))
+
+- Harden token loading
+  ([`7dfdb65`](https://github.com/IAmTheMitchell/discord-voicebot/commit/7dfdb651ee42c83804b0bf384e106c9c88dfc03a))
+
+### Continuous Integration
+
+- Add Ruff lint check
+  ([`24c3507`](https://github.com/IAmTheMitchell/discord-voicebot/commit/24c35075f19100fc2acc3b57a8e564e12ba92258))
+
+### Documentation
+
+- Update readme
+  ([`4b1aa24`](https://github.com/IAmTheMitchell/discord-voicebot/commit/4b1aa243fe94e9a9b44baa08b4bf0f2541b5110c))
+
+### Features
+
+- Utilize uvx in service file
+  ([`d8baf9f`](https://github.com/IAmTheMitchell/discord-voicebot/commit/d8baf9f341304de384e5377fa0e65806678d7688))
+
+### Refactoring
+
+- Remove unused param
+  ([`e95e81c`](https://github.com/IAmTheMitchell/discord-voicebot/commit/e95e81c9634ffa53c1749a811d6511c565f7588e))
+
+
 ## v0.1.0 (2025-07-06)
 
 ### Bug Fixes
