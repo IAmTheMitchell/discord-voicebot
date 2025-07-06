@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 
-from voicebot import bot as bot_mod
+from discord_voicebot import bot as bot_mod
 
 
 def test_is_member_joined_positive():

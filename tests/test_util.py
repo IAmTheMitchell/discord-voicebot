@@ -1,8 +1,6 @@
-import os
-import pathlib
 import pytest
 
-from voicebot import util
+from discord_voicebot import util
 
 
 def _clear_env(monkeypatch):
