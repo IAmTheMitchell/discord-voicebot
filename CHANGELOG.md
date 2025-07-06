@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.2.1 (2025-07-06)
+
+### Bug Fixes
+
+- Fix the project.script path
+  ([`01bf8dd`](https://github.com/IAmTheMitchell/discord-voicebot/commit/01bf8dd6f50a451a9a5e34c4bbc0e00a47685212))
+
+
 ## v0.2.0 (2025-07-06)
 
 ### Bug Fixes
