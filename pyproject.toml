@@ -18,28 +18,34 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "ruff>=0.12.2",
+]
+
 [project.scripts]
 discord-voicebot = "discord_voicebot.bot:main"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
 
 [project.urls]
 Homepage = "https://github.com/IAmTheMitchell/voicebot"
 "Bug Tracker" = "https://github.com/IAmTheMitchell/voicebot/issues"
 "Changelog" = "https://github.com/IAmTheMitchell/voicebot/blob/main/CHANGELOG.md"
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [tool.hatch.build]
 include = [
     "data/discord_voicebot@.service",
 ]
 
-[dependency-groups]
-dev = [
-    "pytest>=8.4.1",
-    "ruff>=0.12.2",
-]
+[tool.hatch.build.targets.wheel]
+packages = ["src/discord_voicebot"]
+
+[tool.hatch.build.targets.sdist]
+packages = ["src/discord_voicebot"]
 
 [tool.semantic_release]
 branch = "main"
