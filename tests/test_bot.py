@@ -1,17 +1,23 @@
-from types import SimpleNamespace
+from unittest.mock import Mock
+
+import discord
 
 from discord_voicebot import bot as bot_mod
 
 
 def test_is_member_joined_positive():
-    before = SimpleNamespace(channel=None)
-    after = SimpleNamespace(channel=object())
+    before = Mock(spec=discord.VoiceState)
+    before.channel = None
+    after = Mock(spec=discord.VoiceState)
+    after.channel = Mock()
     assert bot_mod.is_member_joined(before, after)
 
 
 def test_is_member_joined_negative():
-    before = SimpleNamespace(channel=object())
-    after = SimpleNamespace(channel=object())
+    before = Mock(spec=discord.VoiceState)
+    before.channel = Mock()
+    after = Mock(spec=discord.VoiceState)
+    after.channel = Mock()
     assert not bot_mod.is_member_joined(before, after)
 
 
