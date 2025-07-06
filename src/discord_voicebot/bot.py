@@ -1,4 +1,6 @@
+import argparse
 import logging
+import os
 import random
 
 import discord
@@ -71,5 +73,12 @@ class VoiceBot:
         self.bot.run(self.token)
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Run the Discord VoiceBot")
+    parser.add_argument("--token", help="Discord bot token")
+    args = parser.parse_args(argv)
+
+    if args.token:
+        os.environ["_VOICEBOT_TOKEN_CLI"] = args.token
+
     VoiceBot().run()
