@@ -58,20 +58,42 @@ uvx discord-voicebot --token=<your_discord_token_here>
 
 ```bash
 # 4.1  Create service user (optional but recommended)
-sudo useradd -r -m -s /usr/sbin/nologin voicebot
+sudo useradd -r -m -s /usr/sbin/nologin discord-voicebot
 
-# 4.3  Copy the systemd unit file
+# 4.2  Create working directory
+sudo mkdir -p /opt/discord-voicebot
+sudo chown discord-voicebot:discord-voicebot /opt/discord-voicebot
 
-sudo cp $(python -m importlib.resources files discord-voicebot.data discord_voicebot@.service) \
-         /etc/systemd/system
+# 4.3  Create the systemd unit file
+sudo tee /etc/systemd/system/discord-voicebot.service > /dev/null <<EOF
+[Unit]
+Description=Discord VoiceBot instance
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=discord-voicebot
+WorkingDirectory=/opt/discord-voicebot
+EnvironmentFile=/etc/discord-voicebot/bot.env
+ExecStart=/usr/local/bin/uvx discord-voicebot
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
 # 4.4 Create an environment file with your token
 sudo install -Dm600 /dev/null /etc/discord-voicebot/bot.env
 echo "DISCORD_TOKEN=<your_discord_token_here>" | sudo tee /etc/discord-voicebot/bot.env > /dev/null
 
 # 4.5 Fire it up (using "bot" as the instance name)
 sudo systemctl daemon-reload
-sudo systemctl enable --now discord_voicebot@bot
-sudo journalctl -u discord_voicebot@bot -f   # live logs
+sudo systemctl enable --now discord-voicebot
+sudo journalctl -u discord-voicebot -f   # live logs
 ```
 
 ---
@@ -109,7 +131,7 @@ echo "DISCORD_TOKEN=<your_discord_token_here>" > ~/.config/voicebot/.env
 ### For systemd Service
 The systemd template service reads the token from an environment file:
 ```bash
-sudo systemctl enable --now discord_voicebot@bot
+sudo systemctl enable --now discord-voicebot
 ```
 This expects `/etc/discord-voicebot/bot.env` to contain your token.
 
