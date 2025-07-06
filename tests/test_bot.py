@@ -5,6 +5,18 @@ import discord
 from discord_voicebot import bot as bot_mod
 
 
+def test_main_cli_token_sets_env(monkeypatch):
+    monkeypatch.delenv("_VOICEBOT_TOKEN_CLI", raising=False)
+    captured = {}
+
+    def fake_run(self):
+        captured["token"] = self.token
+
+    monkeypatch.setattr(bot_mod.VoiceBot, "run", fake_run)
+    bot_mod.main(["--token", "cli-token"])
+    assert captured["token"] == "cli-token"
+
+
 def test_is_member_joined_positive():
     before = Mock(spec=discord.VoiceState)
     before.channel = None
