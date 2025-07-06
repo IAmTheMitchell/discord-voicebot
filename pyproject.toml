@@ -33,6 +33,11 @@ Homepage = "https://github.com/IAmTheMitchell/voicebot"
 [tool.setuptools.package-data]
 voicebot = ["data/*.service"]
 
+[tool.hatch.build]
+include = [
+    "src/discord_voicebot/data/discord_voicebot@.service",
+]
+
 [dependency-groups]
 dev = [
     "pytest>=8.4.1",
