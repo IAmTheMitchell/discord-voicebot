@@ -18,6 +18,8 @@ VoiceBot is a lightweight Discord bot that posts a message in the first text cha
 
 ## 📝 Setup Guide
 
+This guide utilizes [uv](https://docs.astral.sh/uv/) to manage Python and run the bot for simplicity.
+
 ### 1 ‒ Create & Configure the Bot in Discord
 
 1. **Open the Developer Portal:** <https://discord.com/developers/applications>  
@@ -42,64 +44,74 @@ curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR="/usr/local/bin"
 
 > **Why uv?** It’s a drop‑in replacement for `pip`/`venv` that installs dependencies in lightning‑fast Rust.
 
-### 3 ‒ Clone, Build, and Run
+### 3 ‒ Run with UVX
+
+> Using the uvx command will download dependencies on each run, so updates are automatic.
 
 ```bash
-cd /opt
-git clone https://github.com/IAmTheMitchell/voicebot.git
-cd voicebot
-
-# Create .env with your secret token
-echo "DISCORD_TOKEN=YOUR-TOKEN-HERE" > .env
-
-uv run voicebot.py            # launch!
+uvx discord-voicebot --token=<your_discord_token_here>
 ```
 
 ### 4 ‒ Running 24 × 7 with systemd (Ubuntu/Debian)
 
-> Replace paths & usernames to taste. The example assumes the repo is cloned to **/opt/voicebot** and a dedicated user named **voicebot** exists.
+> This creates a service that will run the bot in the background. The bot will automatically start at boot. Be sure to replace <your_discord_token_here> with your actual token.
 
 ```bash
 # 4.1  Create service user (optional but recommended)
 sudo useradd -r -m -s /usr/sbin/nologin voicebot
 
-# 4.2  Give service user permissions to read token
-sudo chown voicebot:voicebot /opt/voicebot/.env
-sudo chmod 600 /opt/voicebot/.env
+# 4.3  Copy the systemd unit file
 
-# 4.3  Create the systemd unit
-sudo tee /etc/systemd/system/voicebot.service > /dev/null <<EOF
-[Unit]
-Description=VoiceBot — Discord voice‑join announcer
-After=network-online.target
-Wants=network-online.target
+sudo cp $(python -m importlib.resources files discord-voicebot.data discord_voicebot@.service) \
+         /etc/systemd/system
+# 4.4 Create an environment file with your token
+sudo install -Dm600 /dev/null /etc/discord-voicebot/bot.env
+echo "DISCORD_TOKEN=<your_discord_token_here>" | sudo tee /etc/discord-voicebot/bot.env > /dev/null
 
-[Service]
-Type=simple
-User=voicebot
-WorkingDirectory=/opt/voicebot
-EnvironmentFile=/opt/voicebot/.env
-ExecStart=/usr/local/bin/uv run voicebot.py
-Restart=on-failure
-RestartSec=10
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-# 4.4  Fire it up
+# 4.5 Fire it up (using "bot" as the instance name)
 sudo systemctl daemon-reload
-sudo systemctl enable --now voicebot
-sudo journalctl -u voicebot -f   # live logs
+sudo systemctl enable --now discord_voicebot@bot
+sudo journalctl -u discord_voicebot@bot -f   # live logs
 ```
 
-### 5 ‒ Updating
+---
 
+## Managing the Discord Token
+
+VoiceBot supports multiple ways to provide your Discord token, checked in this priority order:
+
+### 1. Command Line
+Provide the token as an argument when launching the script:
 ```bash
-cd /opt/voicebot
-git pull
-sudo systemctl restart voicebot
+uvx discord-voicebot --token=<your_discord_token_here>
 ```
+This sets the `_VOICEBOT_TOKEN_CLI` environment variable internally.
+
+### 2. Environment Variable
+Set the `DISCORD_TOKEN` environment variable:
+```bash
+export DISCORD_TOKEN=<your_discord_token_here>
+uvx discord-voicebot
+```
+
+### 3. Configuration File (.env)
+Create a `.env` file in your XDG config directory:
+```bash
+# Create the config directory
+mkdir -p ~/.config/voicebot
+
+# Add your token
+echo "DISCORD_TOKEN=<your_discord_token_here>" > ~/.config/voicebot/.env
+```
+
+> **⚠️ Security Note:** Never commit `.env` files containing tokens to version control. Add `.env` to your `.gitignore`.
+
+### For systemd Service
+The systemd template service reads the token from an environment file:
+```bash
+sudo systemctl enable --now discord_voicebot@bot
+```
+This expects `/etc/discord-voicebot/bot.env` to contain your token.
 
 ---
 

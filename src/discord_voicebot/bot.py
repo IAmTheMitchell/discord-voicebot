@@ -27,7 +27,7 @@ def is_member_joined(before: discord.VoiceState, after: discord.VoiceState) -> b
     return before.channel is None and after.channel is not None
 
 
-def get_channel_for_message(discord_mod, bot_client, guild_id):
+def get_channel_for_message(bot_client, guild_id):
     guild = bot_client.get_guild(guild_id)
     for ch in guild.text_channels:
         if ch.permissions_for(guild.me).send_messages:
@@ -51,7 +51,7 @@ class VoiceBot:
 
     async def on_voice_state_update(self, member, before, after):
         if is_member_joined(before, after):
-            to_channel = get_channel_for_message(discord, self.bot, member.guild.id)
+            to_channel = get_channel_for_message(self.bot, member.guild.id)
             if to_channel is None:
                 logger.warning(
                     "No available channel to send join message for guild %s",
@@ -73,4 +73,3 @@ class VoiceBot:
 
 def main() -> None:
     VoiceBot().run()
-
