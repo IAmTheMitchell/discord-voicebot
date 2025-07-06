@@ -14,3 +14,6 @@ voicebot = "voicebot.bot:main"
 
 [project.urls]
 Homepage = "https://github.com/IAmTheMitchell/voicebot"
+
+[tool.setuptools.package-data]
+voicebot = ["data/*.service"]
