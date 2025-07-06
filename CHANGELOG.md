@@ -1,6 +1,28 @@
 # CHANGELOG
 
 
+## v0.2.5 (2025-07-06)
+
+### Bug Fixes
+
+- Support CLI token argument
+  ([`45f4ae3`](https://github.com/IAmTheMitchell/discord-voicebot/commit/45f4ae38385a5b4a85594914b00e511e44aa616b))
+
+### Documentation
+
+- Add --refresh flag to trigger updates
+  ([`1b0fd0e`](https://github.com/IAmTheMitchell/discord-voicebot/commit/1b0fd0e6844b60290a4f4c869b611a7972475471))
+
+- Improve naming consistency and add working directory commands
+  ([`d106747`](https://github.com/IAmTheMitchell/discord-voicebot/commit/d106747f2a4ddf3cf985124d3686badda3a3d87b))
+
+- Simply service start/enable
+  ([`7945020`](https://github.com/IAmTheMitchell/discord-voicebot/commit/7945020a83cf14aaa4ec205811065d37e43ad67b))
+
+- Update readme with systemd instructions
+  ([`841a935`](https://github.com/IAmTheMitchell/discord-voicebot/commit/841a9354f1846908c27e33c8084651a8f8f698ec))
+
+
 ## v0.2.4 (2025-07-06)
 
 ### Bug Fixes
