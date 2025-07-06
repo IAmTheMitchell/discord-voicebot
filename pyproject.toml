@@ -30,12 +30,9 @@ Homepage = "https://github.com/IAmTheMitchell/voicebot"
 "Bug Tracker" = "https://github.com/IAmTheMitchell/voicebot/issues"
 "Changelog" = "https://github.com/IAmTheMitchell/voicebot/blob/main/CHANGELOG.md"
 
-[tool.setuptools.package-data]
-voicebot = ["data/*.service"]
-
 [tool.hatch.build]
 include = [
-    "src/discord_voicebot/data/discord_voicebot@.service",
+    "data/discord_voicebot@.service",
 ]
 
 [dependency-groups]
