@@ -61,14 +61,17 @@ uvx discord-voicebot --token=<your_discord_token_here>
 sudo useradd -r -m -s /usr/sbin/nologin voicebot
 
 # 4.3  Copy the systemd unit file
+
 sudo cp $(python -m importlib.resources files discord-voicebot.data discord_voicebot@.service) \
          /etc/systemd/system
-sudo systemctl enable --now discord_voicebot@<your_discord_token_here>
+# 4.4 Create an environment file with your token
+sudo install -Dm600 /dev/null /etc/discord-voicebot/bot.env
+echo "DISCORD_TOKEN=<your_discord_token_here>" | sudo tee /etc/discord-voicebot/bot.env > /dev/null
 
-# 4.4  Fire it up
+# 4.5 Fire it up (using "bot" as the instance name)
 sudo systemctl daemon-reload
-sudo systemctl enable --now discord_voicebot
-sudo journalctl -u discord_voicebot -f   # live logs
+sudo systemctl enable --now discord_voicebot@bot
+sudo journalctl -u discord_voicebot@bot -f   # live logs
 ```
 
 ---
@@ -91,10 +94,8 @@ export DISCORD_TOKEN=<your_discord_token_here>
 uvx discord-voicebot
 ```
 
-### 3. Configuration Files (.env)
-Create a `.env` file with your token in one of these locations (checked in order):
-
-**Option A:** XDG config directory (recommended)
+### 3. Configuration File (.env)
+Create a `.env` file in your XDG config directory:
 ```bash
 # Create the config directory
 mkdir -p ~/.config/voicebot
@@ -103,20 +104,14 @@ mkdir -p ~/.config/voicebot
 echo "DISCORD_TOKEN=<your_discord_token_here>" > ~/.config/voicebot/.env
 ```
 
-**Option B:** Current working directory
-```bash
-# In your project directory
-echo "DISCORD_TOKEN=<your_discord_token_here>" > .env
-```
-
 > **⚠️ Security Note:** Never commit `.env` files containing tokens to version control. Add `.env` to your `.gitignore`.
 
 ### For systemd Service
-The systemd template service automatically handles token management:
+The systemd template service reads the token from an environment file:
 ```bash
-sudo systemctl enable --now discord_voicebot@<your_discord_token_here>
+sudo systemctl enable --now discord_voicebot@bot
 ```
-This passes the token via command line to the service instance.
+This expects `/etc/discord-voicebot/bot.env` to contain your token.
 
 ---
 

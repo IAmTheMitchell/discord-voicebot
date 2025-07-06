@@ -54,11 +54,11 @@ def test_get_channel_for_message_returns_channel():
     channels = [DummyChannel(False), DummyChannel(True)]
     guild = DummyGuild(channels)
     client = DummyBot(guild)
-    assert bot_mod.get_channel_for_message(None, client, guild.id) is channels[1]
+    assert bot_mod.get_channel_for_message(client, guild.id) is channels[1]
 
 
 def test_get_channel_for_message_returns_none():
     channels = [DummyChannel(False)]
     guild = DummyGuild(channels)
     client = DummyBot(guild)
-    assert bot_mod.get_channel_for_message(None, client, guild.id) is None
+    assert bot_mod.get_channel_for_message(client, guild.id) is None

@@ -5,8 +5,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/uvx discord-voicebot --token=%i
-# fallback if ExecStart lacks --token
+ExecStart=/usr/local/bin/uvx discord-voicebot
 EnvironmentFile=/etc/discord-voicebot/%i.env
 Restart=on-failure
 RestartSec=10
