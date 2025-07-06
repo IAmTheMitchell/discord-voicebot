@@ -88,8 +88,7 @@ echo "DISCORD_TOKEN=<your_discord_token_here>" | sudo tee /etc/discord-voicebot/
 
 # 4.5 Fire it up (using "bot" as the instance name)
 sudo systemctl daemon-reload
-sudo systemctl enable discord-voicebot
-sudo systemctl start discord-voicebot
+sudo systemctl enable --now discord-voicebot
 sudo journalctl -u discord-voicebot -f   # live logs
 ```
 
