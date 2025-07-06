@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 [project.scripts]
-voicebot = "voicebot.bot:main"
+discord-voicebot = "src.discord_voicebot.bot:main"
 
 [build-system]
 requires = ["hatchling"]
