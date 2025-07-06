@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.2.3 (2025-07-06)
+
+### Bug Fixes
+
+- Remove version from init.py
+  ([`10b5617`](https://github.com/IAmTheMitchell/discord-voicebot/commit/10b5617563de1eaf12122951dde9ac59795aa38f))
+
+
 ## v0.2.2 (2025-07-06)
 
 ### Bug Fixes
