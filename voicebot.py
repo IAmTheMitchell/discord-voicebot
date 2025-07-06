@@ -8,12 +8,19 @@
 # ///
 import os
 import random
+import logging
 
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
 load_dotenv()  # Loads variables from .env into the environment
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -50,9 +57,9 @@ def get_channel_for_message(discord_mod, bot_client, guild_id):
 @bot.event
 async def on_ready():
     if bot.user is not None:
-        print(f"Logged in as {bot.user} (id={bot.user.id})")
+        logger.info("Logged in as %s (id=%s)", bot.user, bot.user.id)
     else:
-        print("Bot user is not initialized.")
+        logger.error("Bot user is not initialized.")
 
 
 @bot.event
@@ -60,8 +67,10 @@ async def on_voice_state_update(member, before, after):
     if is_member_joined(before, after):
         to_channel = get_channel_for_message(discord, bot, member.guild.id)
         if to_channel is None:
+            logger.warning("No available channel to send join message for guild %s", member.guild.id)
             return
         message_text = random.choice(REGULAR_MESSAGES)
+        logger.info("%s joined %s", member.display_name, after.channel.name)
         await to_channel.send(
             f"{member.display_name} {message_text} **{after.channel.name}**!",
             delete_after=300,
@@ -70,5 +79,8 @@ async def on_voice_state_update(member, before, after):
 
 
 if TOKEN is None:
+    logger.critical("DISCORD_TOKEN environment variable is not set.")
     raise ValueError("DISCORD_TOKEN environment variable is not set.")
+
+logger.info("Starting bot")
 bot.run(TOKEN)
