@@ -1,9 +1,11 @@
 import argparse
+import asyncio
 import logging
 import os
 import random
 
 import discord
+import httpx
 from discord.ext import commands
 
 from . import util
@@ -38,12 +40,25 @@ def get_channel_for_message(bot_client, guild_id):
 
 
 class VoiceBot:
-    def __init__(self) -> None:
+    def __init__(self, ping_url: str | None = None, ping_interval: int = 300) -> None:
         self.token = util.find_token()
+        self.ping_url = ping_url
+        self.ping_interval = ping_interval
         self.bot = commands.Bot(command_prefix="!", intents=util.intents())
 
         self.bot.event(self.on_ready)
         self.bot.event(self.on_voice_state_update)
+
+    async def healthcheck_pinger(self) -> None:
+        if not self.ping_url:
+            return
+        while True:
+            try:
+                async with httpx.AsyncClient() as client:
+                    await client.get(self.ping_url, timeout=5)
+            except Exception as exc:
+                logger.warning("Healthcheck ping failed: %s", exc)
+            await asyncio.sleep(self.ping_interval)
 
     async def on_ready(self):
         if self.bot.user is not None:
@@ -70,15 +85,27 @@ class VoiceBot:
 
     def run(self) -> None:
         logging.info("Starting bot")
-        self.bot.run(self.token)
+
+        async def _runner() -> None:
+            asyncio.create_task(self.healthcheck_pinger())
+            await self.bot.start(self.token)
+
+        asyncio.run(_runner())
 
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Run the Discord VoiceBot")
     parser.add_argument("--token", help="Discord bot token")
+    parser.add_argument("--ping-url", help="URL to ping for health checks")
+    parser.add_argument(
+        "--ping-interval",
+        type=int,
+        default=300,
+        help="Seconds between health check pings",
+    )
     args = parser.parse_args(argv)
 
     if args.token:
         os.environ["_VOICEBOT_TOKEN_CLI"] = args.token
 
-    VoiceBot().run()
+    VoiceBot(ping_url=args.ping_url, ping_interval=args.ping_interval).run()

@@ -137,6 +137,17 @@ This expects `/etc/discord-voicebot/bot.env` to contain your token.
 
 ---
 
+## Optional Health Checks
+
+Pass a URL to `--ping-url` to periodically ping a health check service. The
+interval in seconds can be adjusted with `--ping-interval` (defaults to 300):
+
+```bash
+uvx discord-voicebot --ping-url=https://hc-ping.com/YOUR-UUID --ping-interval=600
+```
+
+---
+
 ## 🧪 Development & Testing
 
 | Task | Command |

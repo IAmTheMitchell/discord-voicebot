@@ -17,6 +17,24 @@ def test_main_cli_token_sets_env(monkeypatch):
     assert captured["token"] == "cli-token"
 
 
+def test_main_health_args(monkeypatch):
+    captured = {}
+
+    def fake_run(self):
+        captured["url"] = self.ping_url
+        captured["interval"] = self.ping_interval
+
+    monkeypatch.setattr(bot_mod.VoiceBot, "run", fake_run)
+    bot_mod.main([
+        "--ping-url",
+        "http://example.com",
+        "--ping-interval",
+        "10",
+    ])
+    assert captured["url"] == "http://example.com"
+    assert captured["interval"] == 10
+
+
 def test_is_member_joined_positive():
     before = Mock(spec=discord.VoiceState)
     before.channel = None

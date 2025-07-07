@@ -19,6 +19,12 @@
 - Simply service start/enable
   ([`7945020`](https://github.com/IAmTheMitchell/discord-voicebot/commit/7945020a83cf14aaa4ec205811065d37e43ad67b))
 
+## v0.2.6 (Unreleased)
+
+### Features
+
+- Add optional health check pings via `--ping-url` and `--ping-interval`
+
 - Update readme with systemd instructions
   ([`841a935`](https://github.com/IAmTheMitchell/discord-voicebot/commit/841a9354f1846908c27e33c8084651a8f8f698ec))
 
