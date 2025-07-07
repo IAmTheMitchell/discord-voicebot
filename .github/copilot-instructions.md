@@ -8,6 +8,10 @@ VoiceBot is a project written in Python. Its purpose is to send Discord notifica
 # Testing
 - Use pytest for Python testing
 
+# Files
+- Do not create binary files, such as Lambda zip files.
+- Do not modify CHANGELOG.md. This is handled by CI.
+
 # Commits
 - Use conventional commits for all changes 
     - Prefix all commit messages with fix:; feat:; build:; chore:; ci:; docs:; style:; refactor:; perf:; or test: as appropriate.
