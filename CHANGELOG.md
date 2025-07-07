@@ -1,6 +1,35 @@
 # CHANGELOG
 
 
+## v0.3.0 (2025-07-07)
+
+### Chores
+
+- Don't modify changelog
+  ([`b91eeb6`](https://github.com/IAmTheMitchell/discord-voicebot/commit/b91eeb6f0d99da70b962ce2cb0190ccbae0bb3db))
+
+- Ruff formatting directives
+  ([`47848a1`](https://github.com/IAmTheMitchell/discord-voicebot/commit/47848a1d675c18573c56110c0173ed0762e06cb5))
+
+### Documentation
+
+- Fix typo with --refresh flag
+  ([`4d9baeb`](https://github.com/IAmTheMitchell/discord-voicebot/commit/4d9baeb64cff7a530fb429237ed4786dad978826))
+
+### Features
+
+- Add health check pinger
+  ([`ea188aa`](https://github.com/IAmTheMitchell/discord-voicebot/commit/ea188aa179505f023eae3c0c22675d62638de9a0))
+
+- Support env vars for ping settings
+  ([`ed17d28`](https://github.com/IAmTheMitchell/discord-voicebot/commit/ed17d28a24e1c3230c28e8d7dba6e93358978df7))
+
+### Refactoring
+
+- Fix type checking
+  ([`c20908d`](https://github.com/IAmTheMitchell/discord-voicebot/commit/c20908d3cbd24d90b318adea1211e48d45ba531f))
+
+
 ## v0.2.5 (2025-07-06)
 
 ### Bug Fixes
@@ -18,6 +47,9 @@
 
 - Simply service start/enable
   ([`7945020`](https://github.com/IAmTheMitchell/discord-voicebot/commit/7945020a83cf14aaa4ec205811065d37e43ad67b))
+
+- Update readme with systemd instructions
+  ([`841a935`](https://github.com/IAmTheMitchell/discord-voicebot/commit/841a9354f1846908c27e33c8084651a8f8f698ec))
 
 
 ## v0.2.4 (2025-07-06)
