@@ -40,10 +40,16 @@ def get_channel_for_message(bot_client, guild_id):
 
 
 class VoiceBot:
-    def __init__(self, ping_url: str | None = None, ping_interval: int = 300) -> None:
+    def __init__(
+        self,
+        ping_url: str | None = None,
+        ping_interval: int | None = None,
+    ) -> None:
         self.token = util.find_token()
-        self.ping_url = ping_url
-        self.ping_interval = ping_interval
+        self.ping_url = ping_url if ping_url is not None else util.find_ping_url()
+        self.ping_interval = (
+            ping_interval if ping_interval is not None else util.find_ping_interval()
+        )
         self.bot = commands.Bot(command_prefix="!", intents=util.intents())
 
         self.bot.event(self.on_ready)
@@ -100,12 +106,16 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument(
         "--ping-interval",
         type=int,
-        default=300,
+        default=None,
         help="Seconds between health check pings",
     )
     args = parser.parse_args(argv)
 
     if args.token:
         os.environ["_VOICEBOT_TOKEN_CLI"] = args.token
+    if args.ping_url:
+        os.environ["_VOICEBOT_PING_URL_CLI"] = args.ping_url
+    if args.ping_interval is not None:
+        os.environ["_VOICEBOT_PING_INTERVAL_CLI"] = str(args.ping_interval)
 
     VoiceBot(ping_url=args.ping_url, ping_interval=args.ping_interval).run()
