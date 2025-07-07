@@ -1,8 +1,11 @@
 import os
 import pathlib
+from typing import Callable, TypeVar
 
 import discord
 from dotenv import dotenv_values
+
+T = TypeVar("T")
 
 
 def intents() -> discord.Intents:
@@ -21,7 +24,13 @@ def _env_file() -> pathlib.Path:
     )
 
 
-def _find_env_var(cli_var: str, plain_var: str, *, cast=str, default=None):
+def _find_env_var(
+    cli_var: str,
+    plain_var: str,
+    *,
+    cast: Callable[[str], T] = str,
+    default: T | None = None,
+) -> T | None:
     if val := os.getenv(cli_var):
         try:
             return cast(val)
@@ -62,16 +71,10 @@ def find_ping_url(default: str | None = None) -> str | None:
 
 def find_ping_interval(default: int = 300) -> int:
     """Return the ping interval in seconds from env or config."""
-
-    def to_int(val: str) -> int:
-        try:
-            return int(val)
-        except ValueError:
-            return default
-
-    return _find_env_var(
+    result = _find_env_var(
         "_VOICEBOT_PING_INTERVAL_CLI",
         "VOICEBOT_PING_INTERVAL",
-        cast=to_int,
+        cast=int,
         default=default,
     )
+    return result if isinstance(result, int) else default
