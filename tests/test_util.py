@@ -4,7 +4,15 @@ from discord_voicebot import util
 
 
 def _clear_env(monkeypatch):
-    for var in ["_VOICEBOT_TOKEN_CLI", "DISCORD_TOKEN", "XDG_CONFIG_HOME"]:
+    for var in [
+        "_VOICEBOT_TOKEN_CLI",
+        "DISCORD_TOKEN",
+        "_VOICEBOT_PING_URL_CLI",
+        "VOICEBOT_PING_URL",
+        "_VOICEBOT_PING_INTERVAL_CLI",
+        "VOICEBOT_PING_INTERVAL",
+        "XDG_CONFIG_HOME",
+    ]:
         monkeypatch.delenv(var, raising=False)
 
 
@@ -62,3 +70,27 @@ def test_find_token_not_found(monkeypatch, tmp_path):
     monkeypatch.chdir(tmp_path)
     with pytest.raises(RuntimeError):
         util.find_token()
+
+
+def test_find_ping_url_from_cli(monkeypatch):
+    _clear_env(monkeypatch)
+    monkeypatch.setenv("_VOICEBOT_PING_URL_CLI", "http://cli")
+    assert util.find_ping_url() == "http://cli"
+
+
+def test_find_ping_url_from_env(monkeypatch):
+    _clear_env(monkeypatch)
+    monkeypatch.setenv("VOICEBOT_PING_URL", "http://env")
+    assert util.find_ping_url() == "http://env"
+
+
+def test_find_ping_interval_from_cli(monkeypatch):
+    _clear_env(monkeypatch)
+    monkeypatch.setenv("_VOICEBOT_PING_INTERVAL_CLI", "42")
+    assert util.find_ping_interval() == 42
+
+
+def test_find_ping_interval_from_env(monkeypatch):
+    _clear_env(monkeypatch)
+    monkeypatch.setenv("VOICEBOT_PING_INTERVAL", "99")
+    assert util.find_ping_interval() == 99
